@@ -15,6 +15,10 @@ class Usuario{
     public $correo_electronico;
     public $contrasena;
     public $direccion;
+    public $numero_tarjeta;
+    public $cvv;
+    public $fecha_tarjeta;
+    public $tipo_tarjeta;
 
     //Contructor
 
@@ -47,12 +51,17 @@ class Usuario{
             $this->correo_electronico= $fila["correo_electronico"];
             $this->contrasena= $fila["contrasena"];
             $this->direccion= $fila["direccion"];
+            $this->numero_tarjeta = $fila["numero_tarjeta"];
+            $this->fecha_tarjeta = $fila["fecha_tarjeta"];
+            $this->tipo_tarjeta = $fila["tipo_tarjeta"];
+            $this->cvv = $fila["cvv"];
+
             return $this->id;
         }
     }
 
     public function insertar(){
-        $consulta = "INSERT INTO ".$this->tabla."(nombre, apellido, telefono, contrasena, direccion, correo_electronico) VALUES ('".$this->nombre."', '".$this->apellidos."','".$this->telefono."','".$this->contrasena."', '".$this->direccion."','".$this->correo_electronico."')";
+        $consulta = "INSERT INTO ".$this->tabla."(nombre, apellido, telefono, contrasena, direccion, correo_electronico, numero_tarjeta, tipo_tarjeta, fecha_tarjeta, cvv) VALUES ('".$this->nombre."', '".$this->apellidos."','".$this->telefono."','".$this->contrasena."', '".$this->direccion."','".$this->correo_electronico."','".$this->numero_tarjeta."','".$this->tipo_tarjeta."','".$this->fecha_tarjeta."','".$this->cvv."')";
         $resultado = $this->conexion->query($consulta);
         return $resultado;
     }
@@ -66,6 +75,11 @@ class Usuario{
             $this->correo_electronico= $otro_usuario->correo_electronico;
             $this->contrasena= $otro_usuario->contrasena;
             $this->direccion= $otro_usuario->direccion;
+            $this->numero_tarjeta= $otro_usuario->numero_tarjeta;
+            $this->tipo_tarjeta= $otro_usuario->tipo_tarjeta;
+            $this->fecha_tarjeta= $otro_usuario->fecha_tarjeta;
+            $this->cvv= $otro_usuario->cvv;
+
     }
 
     public function buscarPorId($id){
@@ -84,6 +98,10 @@ class Usuario{
             $this->correo_electronico= $fila["correo_electronico"];
             $this->contrasena= $fila["contrasena"];
             $this->direccion= $fila["direccion"];
+            $this->numero_tarjeta = $fila["numero_tarjeta"];
+            $this->fecha_tarjeta = $fila["fecha_tarjeta"];
+            $this->tipo_tarjeta = $fila["tipo_tarjeta"];
+            $this->cvv = $fila["cvv"];
             return $this->id;
         }
     }

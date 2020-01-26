@@ -29,17 +29,7 @@
        
 
         while($fila){
-            $usuario_fila = array(
-                "id" => $fila["id"],
-                "nombre" => $fila["nombre"],
-                "apellidos" => $fila["apellido"],
-                "telefono" => $fila["telefono"],
-                "direccion" => $fila["direccion"],
-                "contrasena" => $fila["contrasena"],
-                "admin" => $fila["admin"],
-                "correo_electronico" => $fila["correo_electronico"]
-            );
-        array_push($usuarios_arr["filas"], $usuario_fila);
+        array_push($usuarios_arr["filas"], $fila);
         
 
         $fila = $resultado -> fetch_assoc();
