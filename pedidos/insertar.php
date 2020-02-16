@@ -25,19 +25,21 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  if(isset($peticion->id_usuario)){
      $id_usuario = $peticion->id_usuario;
      $carrito = new Carrito($conexion);
-     if($carrito->buscarCarritoDeUsuario($id_usuario)){
+     if($carrito->getCarrito($id_usuario)){
         if($pedido->crearPedido($carrito)){
             // Codigo de respuesta
             http_response_code(200);
             //Mensaje de error
             echo json_encode(
             array("mensaje" => "Pedido  creado.")
+            );
         }else{
             // Codigo de respuesta
             http_response_code(500);
             //Mensaje de error
             echo json_encode(
             array("mensaje" => "No se ha podido realizar el pedido.")
+            );
         }
      }else{
         // Codigo de respuesta

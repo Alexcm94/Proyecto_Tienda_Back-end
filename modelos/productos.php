@@ -45,5 +45,27 @@ class Producto{
         $resultado = $this->conexion->query($consulta);
         return $resultado;
     }
+
+    public function getProducto($id){
+        $consulta = "SELECT * FROM ".$this->tabla." WHERE id = '" .$id."'";
+        $resultado = $this->conexion->query($consulta);
+        if($resultado->num_rows == 0){
+            return 0;
+        }
+        else{
+            $fila = $resultado->fetch_assoc();
+            $this->id = $fila["id"];
+            $this->nombre = $fila["nombre"];
+            $this->tipo = $fila["tipo"];
+            $this->subtipo = $fila["subtipo"];
+            $this->precio = $fila["precio"];
+            $this->descuento = $fila["descuento"];
+            $this->descripcion = $fila["descripcion"];
+            $this->imagen = $fila["imagen"];
+
+
+            return $this->id;
+        }
+    }
 }
     ?>

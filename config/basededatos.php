@@ -1,10 +1,17 @@
 <?php
 class BaseDatos{
 
-    private $host = 'localhost';
-    private $usuario = 'root';
-    private $contrasena = '';
-    private $nombre = 'tienda';
+    // private $host = 'localhost';
+    // private $usuario = 'root';
+    // private $contrasena = '';
+    // private $nombre = 'tienda';
+
+    //Remoto
+
+    private $host = 'db5000222612.hosting-data.io';
+    private $usuario = 'dbu340239';
+    private $contrasena = '1234Abcd:';
+    private $nombre = 'dbs217331';
     
     public $conexion;
 
