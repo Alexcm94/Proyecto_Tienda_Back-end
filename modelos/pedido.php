@@ -27,9 +27,9 @@ class Pedido{
             $this->estado = "PENDIENTE";
             $this->fecha = date("Y-m-d");
             for ($i=0; $i < count($carrito->productos); $i++) { 
-                //CREAR PRECIO FINAL
-                $precio_final = $this->calcularPrecioFinal($carrito->productos[$i]["id"], $carrito->productos[$i]["cantidad"]);
-                $consulta='INSERT INTO linea_pedido (id_producto, id_pedido, precio_final) VALUES ('.$carrito->productos[$i]["id"].', '.$this->id.','.$precio_final.')';
+                
+                $precio = $this->calcularPrecioFinal($carrito->productos[$i]["id"]);
+                $consulta='INSERT INTO linea_pedido (id_producto, id_pedido, precio, cantidad) VALUES ('.$carrito->productos[$i]["id"].', '.$this->id.','.$precio.','.$carrito->productos[$i]['cantidad'].')';
                 $resultado = $this->conexion->query($consulta);
                 if(!$resultado){
                     return $resultado;
@@ -42,15 +42,15 @@ class Pedido{
         return $resultado;
     }
 
-    private function calcularPrecioFinal($id_producto, $cantidad){
+    private function calcularPrecioFinal($id_producto){
         $producto = new Producto($this->conexion);
         $producto->getProducto($id_producto);
-        $precio_final = ($producto->precio - ($producto->precio * $producto->descuento / 100 )) * $cantidad;
-        return $precio_final;
+        $precio = ($producto->precio - ($producto->precio * $producto->descuento / 100 ));
+        return $precio;
     }
 
     public function pedidosUsuario($id_usuario){
-        $consulta = "SELECT id, estado, fecha FROM pedidos WHERE id_usuario = ".$id_usuario;
+        $consulta = "SELECT id, estado, fecha, sum(linea_pedido.precio) as precio FROM pedidos INNER JOIN linea_pedido ON pedidos.id = linea_pedido.id_pedido WHERE id_usuario = ".$id_usuario;
         $resultado = $this->conexion->query($consulta);
 
         if($resultado){
@@ -60,6 +60,7 @@ class Pedido{
                 $pedido["id"] = $fila["id"];
                 $pedido["estado"] = $fila["estado"];
                 $pedido["fecha"] = $fila["fecha"];
+                $pedido["precio"] = $fila["precio"];
                 $pedido["lineas"] = $this->lineasPedido($pedido["id"]);
                 array_push($pedidos, $pedido);
             }
@@ -71,7 +72,7 @@ class Pedido{
 
     public function lineasPedido($id_pedido){
         $lineas = [];
-        $consulta = "SELECT linea_pedido.precio_final, producto.nombre FROM linea_pedido, producto  WHERE linea_pedido.id_pedido = ".$id_pedido." AND linea_pedido.id_producto = producto.id ";
+        $consulta = "SELECT linea_pedido.precio, linea_pedido.cantidad, producto.nombre FROM linea_pedido, producto  WHERE linea_pedido.id_pedido = ".$id_pedido." AND linea_pedido.id_producto = producto.id ";
         $resultado = $this->conexion->query($consulta);
         if($resultado){
             while($fila = $resultado->fetch_assoc()){
@@ -79,6 +80,39 @@ class Pedido{
             }
         }
         return $lineas;
+    }
+
+    public function todos(){
+        $sql = "SELECT id, fecha, estado FROM pedidos";
+        $resultado = $this->conexion->query($sql);
+        $pedidos = array();
+        while($fila = $resultado->fetch_assoc()){
+            $pedido = $fila;
+            $pedido["lineas"] = $this->sacarFilas($pedido["id"]);
+            $pedido["comprador"] = $this->sacarDatosComprador($pedido["id"]);
+            array_push($pedidos, $pedido);
+        }
+        return $pedidos;
+    }
+    // ARREGLAR FALLO
+    private function sacarFilas($id_pedido){
+        $sql = "SELECT producto.nombre, linea_pedido.cantidad FROM linea_pedido, producto WHERE linea_pedido.id_producto = producto.id AND linea_pedido.id_pedido = ".$id_pedido;
+        $resultado = $this->conexion->query($sql);
+        $filas = array();
+        while($fila = $resultado->fetch_assoc()){
+            array_push($filas, $fila);
+        }
+        return $filas;
+    }
+    private function sacarDatosComprador($id_pedido){
+        $comprador = array();
+        $sql = 'SELECT usuario.nombre, usuario.apellido, usuario.direccion, usuario.telefono FROM usuario, pedidos WHERE pedidos.id = '.$id_pedido.' AND pedidos.id_usuario = usuario.id ';
+        if($resultado = $this->conexion->query($sql)){
+            if($fila = $resultado->fetch_assoc()){
+                $comprador = $fila;
+            }
+        }
+        return $comprador;
     }
 }
 

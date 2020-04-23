@@ -25,15 +25,15 @@ if(isset($_GET["id_usuario"])){
     }else{
         // Codigo de respuesta
         http_response_code(404);
-        //Mensaje de error
+        // Mensaje de error
         echo json_encode(
             array("mensaje" => "No se encuentran pedidos")
         );
     }
 }else{
-    //Codigo de respuesta
+    // Codigo de respuesta
     http_response_code(400);
-    //Mensaje de error
+    // Mensaje de error
     echo json_encode(array("mensaje" => "Los datos recibidos están incompletos"));
 }
 ?>

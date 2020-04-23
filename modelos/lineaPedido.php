@@ -8,7 +8,7 @@ class LineaPedido{
     //Columnas
     public $id_producto;
     public $id_pedido;
-    public $precio_final;
+    public $precio;
 
     //Contructor
 
