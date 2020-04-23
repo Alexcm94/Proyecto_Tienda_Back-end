@@ -31,16 +31,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `carrito` (
   `id_usuario` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL
+  `cantidad` int(11) NOT NULL,
+  `talla` varchar(3) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `carrito`
---
-
-INSERT INTO `carrito` (`id_usuario`, `id_producto`, `cantidad`) VALUES
-(1, 1, 11),
-(1, 3, 10);
 
 -- --------------------------------------------------------
 
@@ -52,16 +45,9 @@ CREATE TABLE `linea_pedido` (
   `id_producto` int(11) NOT NULL,
   `id_pedido` int(11) NOT NULL,
   `precio` float NOT NULL,
-  `cantidad` int(11) NOT NULL
+  `cantidad` int(11) NOT NULL,
+  `talla` varchar(3) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `linea_pedido`
---
-
-INSERT INTO `linea_pedido` (`id_producto`, `id_pedido`, `precio`, `cantidad`) VALUES
-(1, 21, 48, 5),
-(3, 21, 0.99, 4);
 
 -- --------------------------------------------------------
 
@@ -76,12 +62,7 @@ CREATE TABLE `pedidos` (
   `fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `pedidos`
---
 
-INSERT INTO `pedidos` (`id`, `estado`, `id_usuario`, `fecha`) VALUES
-(21, 'PENDI', 7, '2020-03-08');
 
 -- --------------------------------------------------------
 
@@ -104,12 +85,7 @@ CREATE TABLE `producto` (
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`id`, `tipo`, `subtipo`, `nombre`, `precio`, `descripcion`, `descuento`, `imagen`) VALUES
-(1, 'asd', 'alias', 'Federico', 60, 'kjagsduasgdads', 20, 'asdasdad'),
-(2, 'for', 'arriba', 'Camiseta de cuadros', 20, 'Camiseta de cuadros tipica', 10, 'aaaaa'),
-(3, '1', '3', 'aa', 1, 'sadasd', 1, 'asdasd'),
-(4, '1', '3', 'aa', 1, 'sadasd', 1, 'asdasd'),
-(5, '1', '2', 'asdas', 22, 'asdasd', 22, 'asdasd');
+
 
 -- --------------------------------------------------------
 
@@ -132,26 +108,8 @@ CREATE TABLE `usuario` (
   `tipo_tarjeta` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `usuario`
---
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `correo_electronico`, `telefono`, `contrasena`, `admin`, `direccion`, `numero_tarjeta`, `cvv`, `fecha_tarjeta`, `tipo_tarjeta`) VALUES
-(1, 'Alejandro', 'Cerda', 'asdasd@hotmail.com', '666666666', 'abcd', 1, 'salkdkasdl', '', '', '', ''),
-(2, 'Alex', 'CerdÃ¡', '0', '676767676', 'abcd', 0, 'Jardin de la reina', '', '', '', ''),
-(3, 'Azahara', 'Molina', '0', '688888888', 'abcd', 0, 'alasa', '', '', '', ''),
-(4, 'Azahara', 'Molina', '0', '688888888', 'abcd', 0, 'alasa', '', '', '', ''),
-(5, 'Azahara', 'Molina', '0', '688888888', 'abcd', 0, 'alasa', '', '', '', ''),
-(6, 'Azahara', 'Molina', '', '688888888', 'abcd', 0, 'alasa', '', '', '', ''),
-(7, 'Facundo', 'Ramos', 'asasa@gmail.com', '676767676', 'abcd', 0, 'asas', '', '', '', ''),
-(8, 'sadasd', 'asdasd', 'asdasd@.com', 'sad', 'asdasd', 0, 'asd', '', '', '', ''),
-(9, 'Alejandro', 'Sanchez', 'alejandrosanchez@gmail.com', '656433496', 'abcd', 0, 'Curro Sanchez, 45', '', '', '', '');
 
---
--- Índices para tablas volcadas
---
-
---
 -- Indices de la tabla `carrito`
 --
 ALTER TABLE `carrito`

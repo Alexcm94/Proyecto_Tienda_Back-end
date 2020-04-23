@@ -26,6 +26,10 @@
         if(!$usuario->buscarPorCorreo($peticion->usuario->correo_electronico)){
             $peticion->usuario->admin=0;
             $peticion->usuario->id=-1;
+            $peticion->usuario->numero_tarjeta="";
+            $peticion->usuario->fecha_tarjeta="";
+            $peticion->usuario->tipo_tarjeta="";
+            $peticion->usuario->cvv="";
             $usuario->copiar($peticion->usuario);
             if($usuario->insertar()){
                 //Mandamos respuesta de éxito

@@ -25,7 +25,11 @@ class Producto{
     public function todos(){
         $consulta = "SELECT * FROM ".$this->tabla;
         $resultado = $this->conexion->query($consulta);
-        return $resultado;
+        $productos = array();
+        while($fila = $resultado->fetch_assoc()) {
+            array_push($productos, $fila);
+        }
+        return $productos;
     }
 
     public function copiar($otro){
@@ -37,7 +41,6 @@ class Producto{
         $this->descuento = $otro->descuento;
         $this->descripcion = $otro->descripcion;
         $this->imagen = $otro->imagen;
-
     }
 
     public function insertar(){
@@ -62,7 +65,6 @@ class Producto{
             $this->descuento = $fila["descuento"];
             $this->descripcion = $fila["descripcion"];
             $this->imagen = $fila["imagen"];
-
 
             return $this->id;
         }

@@ -29,7 +29,7 @@ class Pedido{
             for ($i=0; $i < count($carrito->productos); $i++) { 
                 
                 $precio = $this->calcularPrecioFinal($carrito->productos[$i]["id"]);
-                $consulta='INSERT INTO linea_pedido (id_producto, id_pedido, precio, cantidad) VALUES ('.$carrito->productos[$i]["id"].', '.$this->id.','.$precio.','.$carrito->productos[$i]['cantidad'].')';
+                $consulta='INSERT INTO linea_pedido (id_producto, id_pedido, precio, cantidad, talla) VALUES ('.$carrito->productos[$i]["id"].', '.$this->id.','.$precio.','.$carrito->productos[$i]['cantidad'].', "'.$carrito->productos[$i]['talla'].'")';
                 $resultado = $this->conexion->query($consulta);
                 if(!$resultado){
                     return $resultado;
@@ -72,7 +72,7 @@ class Pedido{
 
     public function lineasPedido($id_pedido){
         $lineas = [];
-        $consulta = "SELECT linea_pedido.precio, linea_pedido.cantidad, producto.nombre FROM linea_pedido, producto  WHERE linea_pedido.id_pedido = ".$id_pedido." AND linea_pedido.id_producto = producto.id ";
+        $consulta = "SELECT linea_pedido.precio, linea_pedido.cantidad, producto.nombre, linea_pedido.talla FROM linea_pedido, producto  WHERE linea_pedido.id_pedido = ".$id_pedido." AND linea_pedido.id_producto = producto.id ";
         $resultado = $this->conexion->query($consulta);
         if($resultado){
             while($fila = $resultado->fetch_assoc()){
@@ -96,7 +96,7 @@ class Pedido{
     }
     // ARREGLAR FALLO
     private function sacarFilas($id_pedido){
-        $sql = "SELECT producto.nombre, linea_pedido.cantidad FROM linea_pedido, producto WHERE linea_pedido.id_producto = producto.id AND linea_pedido.id_pedido = ".$id_pedido;
+        $sql = "SELECT producto.nombre, linea_pedido.cantidad, linea_pedido.precio, linea_pedido.talla FROM linea_pedido, producto WHERE linea_pedido.id_producto = producto.id AND linea_pedido.id_pedido = ".$id_pedido;
         $resultado = $this->conexion->query($sql);
         $filas = array();
         while($fila = $resultado->fetch_assoc()){

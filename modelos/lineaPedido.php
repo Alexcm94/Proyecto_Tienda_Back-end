@@ -9,6 +9,8 @@ class LineaPedido{
     public $id_producto;
     public $id_pedido;
     public $precio;
+    public $cantidad;
+    public $talla;
 
     //Contructor
 

@@ -23,9 +23,10 @@
         $id_usuario = $peticion->producto->id_usuario;
         $id_producto = $peticion->producto->id_producto;
         $cantidad = $peticion->producto->cantidad;
+        $talla = $peticion->producto->talla;
 
         if($carrito->getCarrito($id_usuario)){
-            if($carrito->insertarProducto($id_producto, $cantidad)){
+            if($carrito->insertarProducto($id_producto, $cantidad, $talla)){
                 $respuesta_arr = array();
                 $respuesta_arr["cantidad"] = $carrito->numeroElementos();
 

@@ -13,7 +13,7 @@ class Carrito{
         $this->productos = array();
     }
     public function getCarrito($id_usuario){
-        $consulta = "SELECT producto.id, producto.nombre, producto.imagen, producto.precio, carrito.cantidad FROM producto, carrito WHERE carrito.id_usuario = ".$id_usuario." AND carrito.id_producto = producto.id";
+        $consulta = "SELECT producto.id, producto.nombre, producto.imagen, producto.precio, carrito.cantidad, carrito.talla FROM producto, carrito WHERE carrito.id_usuario = ".$id_usuario." AND carrito.id_producto = producto.id";
         $resultado = $this->conexion->query($consulta);
         if($resultado){
             $this->id_usuario = $id_usuario;
@@ -36,15 +36,16 @@ class Carrito{
         return 0;
     }
 
-    public function insertarProducto($id_producto,$cantidad){
+    public function insertarProducto($id_producto,$cantidad, $talla){
         $cantidad_existente = $this->cantidadProducto($id_producto);
         if($cantidad_existente == 0){
-            $sql = 'INSERT INTO carrito(id_usuario, id_producto, cantidad) VALUES ('.$this->id_usuario.','.$id_producto.','.$cantidad.')';
+            $sql = 'INSERT INTO carrito(id_usuario, id_producto, cantidad, talla) VALUES ('.$this->id_usuario.','.$id_producto.','.$cantidad.', "'.$talla.'")';
             $resultado = $this->conexion->query($sql);
             if($resultado){
                 $producto = array();
                 $producto["id"] = $id_producto;
                 $producto["cantidad"] = $cantidad;
+                $producto["talla"] = $talla;
                 array_push($this->productos, $producto);
                 return true;
             }else{

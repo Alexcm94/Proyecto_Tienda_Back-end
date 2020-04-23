@@ -15,24 +15,9 @@ $producto = new Producto($conexion);
 
 //Leer todos los productos
 $resultado = $producto->todos();
-$num = $resultado->num_rows;
-if($num>0){
+if(count($resultado)>0){
     $productos_arr = array();
-    $productos_arr["filas"]=array();
-
-    while($fila = $resultado->fetch_assoc()){
-        $producto_fila = array(
-            "id" => $fila["id"],
-            "tipo" => $fila["tipo"],
-            "subtipo" => $fila["subtipo"],
-            "nombre" => $fila["nombre"],
-            "descripcion" => $fila["descripcion"],
-            "precio" => $fila["precio"],
-            "descuento" => $fila["descuento"],
-            "imagen" => $fila["imagen"],
-        );
-        array_push($productos_arr["filas"], $producto_fila);
-    }
+    $productos_arr["filas"]=$resultado;
     // Codigo respuesta http - 200 OK
     http_response_code(200);
 
