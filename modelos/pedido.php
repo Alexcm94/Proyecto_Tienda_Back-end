@@ -50,7 +50,7 @@ class Pedido{
     }
 
     public function pedidosUsuario($id_usuario){
-        $consulta = "SELECT id, estado, fecha, sum(linea_pedido.precio) as precio FROM pedidos INNER JOIN linea_pedido ON pedidos.id = linea_pedido.id_pedido WHERE id_usuario = ".$id_usuario;
+        $consulta = "SELECT id, estado, fecha FROM pedidos WHERE id_usuario = ".$id_usuario;
         $resultado = $this->conexion->query($consulta);
 
         if($resultado){
@@ -60,7 +60,6 @@ class Pedido{
                 $pedido["id"] = $fila["id"];
                 $pedido["estado"] = $fila["estado"];
                 $pedido["fecha"] = $fila["fecha"];
-                $pedido["precio"] = $fila["precio"];
                 $pedido["lineas"] = $this->lineasPedido($pedido["id"]);
                 array_push($pedidos, $pedido);
             }
