@@ -69,5 +69,11 @@ class Producto{
             return $this->id;
         }
     }
+
+    public function eliminar($id) {
+        $sql = "DELETE FROM producto WHERE id = " . $id;
+        $resultado = $this->conexion->query($sql);
+        return $resultado;
+    }
 }
     ?>

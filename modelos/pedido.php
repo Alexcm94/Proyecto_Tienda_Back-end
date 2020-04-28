@@ -113,6 +113,12 @@ class Pedido{
         }
         return $comprador;
     }
+
+    public function borrarPedidosVacios() {
+        $sql = "DELETE FROM pedidos WHERE id NOT IN (SELECT id_pedido FROM linea_pedido)";
+        $resultado = $this->conexion->query($sql);
+        return $resultado;
+    }
 }
 
 ?>

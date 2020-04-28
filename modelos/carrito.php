@@ -68,5 +68,10 @@ class Carrito{
     public function numeroElementos(){
         return count($this->productos);
     }
+    public function eliminar($id_usuario, $id_producto){
+        $consulta = "DELETE FROM carrito WHERE id_usuario = " . $id_usuario . " AND id_producto = ". $id_producto .";";
+        $resultado = $this->conexion->query($consulta);
+        return $resultado;
+    }
 }
 ?>

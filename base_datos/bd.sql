@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-04-2020 a las 17:31:27
+-- Tiempo de generación: 28-04-2020 a las 18:27:05
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -35,6 +35,9 @@ CREATE TABLE `carrito` (
   `talla` varchar(3) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+
+
 -- --------------------------------------------------------
 
 --
@@ -57,12 +60,10 @@ CREATE TABLE `linea_pedido` (
 
 CREATE TABLE `pedidos` (
   `id` int(11) NOT NULL,
-  `estado` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `estado` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_usuario` int(11) NOT NULL,
   `fecha` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
 
 -- --------------------------------------------------------
 
@@ -78,14 +79,8 @@ CREATE TABLE `producto` (
   `precio` float NOT NULL,
   `descripcion` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `descuento` float NOT NULL,
-  `imagen` varchar(500) COLLATE utf8_unicode_ci NOT NULL
+  `imagen` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `producto`
---
-
-
 
 -- --------------------------------------------------------
 
@@ -110,18 +105,23 @@ CREATE TABLE `usuario` (
 
 
 
+--
+-- Índices para tablas volcadas
+--
+
+--
 -- Indices de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  ADD KEY `id_usuario` (`id_usuario`),
-  ADD KEY `id_producto` (`id_producto`);
+  ADD KEY `carrito_ibfk_1` (`id_usuario`),
+  ADD KEY `carrito_ibfk_2` (`id_producto`);
 
 --
 -- Indices de la tabla `linea_pedido`
 --
 ALTER TABLE `linea_pedido`
-  ADD KEY `id_producto` (`id_producto`),
-  ADD KEY `id_pedido` (`id_pedido`);
+  ADD KEY `linea_pedido_ibfk_1` (`id_producto`),
+  ADD KEY `linea_pedido_ibfk_2` (`id_pedido`);
 
 --
 -- Indices de la tabla `pedidos`
@@ -150,7 +150,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
@@ -162,7 +162,7 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
@@ -172,15 +172,15 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  ADD CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
-  ADD CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`);
+  ADD CONSTRAINT `carrito_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `carrito_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `linea_pedido`
 --
 ALTER TABLE `linea_pedido`
-  ADD CONSTRAINT `linea_pedido_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`),
-  ADD CONSTRAINT `linea_pedido_ibfk_2` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`);
+  ADD CONSTRAINT `linea_pedido_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `linea_pedido_ibfk_2` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `pedidos`
