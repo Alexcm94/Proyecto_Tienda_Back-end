@@ -119,6 +119,18 @@ class Pedido{
         $resultado = $this->conexion->query($sql);
         return $resultado;
     }
+
+    public function cambiarEstadoPedido($id_pedido){
+        $sql = "UPDATE pedidos SET estado = 'ENVIADO' WHERE id = $id_pedido";
+        $resultado = $this->conexion->query($sql);
+        return $resultado;
+    }
+
+    public function cancelarPedido($id_pedido){
+        $sql = "DELETE FROM pedidos WHERE id = " .$id_pedido;
+        $resultado = $this->conexion->query($sql);
+        return $resultado;
+    }
 }
 
 ?>

@@ -44,6 +44,9 @@ class Producto{
     }
 
     public function insertar(){
+        if($this->descuento == '') {
+            $this->descuento = 0;
+        }
         $consulta = "INSERT INTO ".$this->tabla."(nombre, tipo, subtipo, precio, descuento, descripcion, imagen) VALUES ('".$this->nombre."','".$this->tipo."','".$this->subtipo."',".$this->precio.",".$this->descuento.",'".$this->descripcion."','".$this->imagen."')";
         $resultado = $this->conexion->query($consulta);
         return $resultado;
@@ -74,6 +77,19 @@ class Producto{
         $sql = "DELETE FROM producto WHERE id = " . $id;
         $resultado = $this->conexion->query($sql);
         return $resultado;
+    }
+
+    public function searchPalabra($palabra){
+        $sql = "SELECT * FROM producto WHERE nombre LIKE '%".$palabra."%'";
+        $resultado = $this->conexion->query($sql);
+        $productos = array();
+        if($resultado) {
+            while($fila = $resultado->fetch_assoc()) {
+                array_push($productos, $fila);
+            }
+        }
+        
+        return $productos;
     }
 }
     ?>

@@ -105,5 +105,12 @@ class Usuario{
             return $this->id;
         }
     }
+
+    public function cambiarTarjeta($tipo_tarjeta, $numero_tarjeta, $fecha_tarjeta, $cvv, $id_usuario){
+        $consulta = "UPDATE usuario SET numero_tarjeta='$numero_tarjeta',`cvv`='$cvv',`fecha_tarjeta`='$fecha_tarjeta',`tipo_tarjeta`='$tipo_tarjeta' WHERE id=$id_usuario";
+        $resultado = $this->conexion->query($consulta);
+        return $resultado;
+
+    }
 }
 ?>
