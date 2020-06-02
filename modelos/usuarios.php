@@ -121,7 +121,7 @@ class Usuario{
       $to_email = $this->correo_electronico;
       $subject = "Confirma tu cuenta";
       $body = "Para confirmar tu cuenta haz click <a href='" . BaseDatos::$backend . "/usuarios/confirmar.php?id_usuario=$this->id' target='_blank'>aquí</a>";
-      $headers = "From: alejandrocemu94@gmail.com;";
+      $headers = "From: no-reply@acmtienda.es;";
       $headers .= "MIME-Version: 1.0\r\n";
       $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
       if (mail($to_email, $subject, $body, $headers)) {
