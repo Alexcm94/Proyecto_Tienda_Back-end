@@ -100,7 +100,8 @@ CREATE TABLE `usuario` (
   `numero_tarjeta` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
   `cvv` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
   `fecha_tarjeta` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
-  `tipo_tarjeta` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+  `tipo_tarjeta` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `confirmado` tinyint(1) COLLATE utf8_unicode_ci DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 

@@ -30,10 +30,13 @@
             $peticion->usuario->fecha_tarjeta="";
             $peticion->usuario->tipo_tarjeta="";
             $peticion->usuario->cvv="";
+            $peticion->usuario->confirmado = 0;
             $usuario->copiar($peticion->usuario);
             if($usuario->insertar()){
+
                 //Mandamos respuesta de éxito
                 $usuario->id = $conexion->insert_id;
+                $usuario->mandarCorreoConfirmacion();
                 //Transformamos en un array
                 $usuario_arr = array();
                 $usuario_arr["usuario"] = array($usuario);
@@ -52,7 +55,7 @@
             //Mensaje error
             echo json_encode(array("mensaje" => "El correo electrónico ya está registrado"));
         }
-        
+
     }else{
         http_response_code(400);
         echo json_encode(array("mensaje" => "Los datos recibidos por el usuario no son correctos"));

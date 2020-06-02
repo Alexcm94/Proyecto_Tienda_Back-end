@@ -19,6 +19,7 @@ class Usuario{
     public $cvv;
     public $fecha_tarjeta;
     public $tipo_tarjeta;
+    public $confirmado;
 
     //Contructor
 
@@ -55,6 +56,7 @@ class Usuario{
             $this->fecha_tarjeta = $fila["fecha_tarjeta"];
             $this->tipo_tarjeta = $fila["tipo_tarjeta"];
             $this->cvv = $fila["cvv"];
+            $this->confirmado = $fila["confirmado"];
 
             return $this->id;
         }
@@ -79,6 +81,7 @@ class Usuario{
             $this->tipo_tarjeta= $otro_usuario->tipo_tarjeta;
             $this->fecha_tarjeta= $otro_usuario->fecha_tarjeta;
             $this->cvv= $otro_usuario->cvv;
+            $this->confirmado= $otro_usuario->confirmado;
 
     }
 
@@ -102,6 +105,7 @@ class Usuario{
             $this->fecha_tarjeta = $fila["fecha_tarjeta"];
             $this->tipo_tarjeta = $fila["tipo_tarjeta"];
             $this->cvv = $fila["cvv"];
+            $this->confirmado = $fila["confirmado"];
             return $this->id;
         }
     }
@@ -111,6 +115,26 @@ class Usuario{
         $resultado = $this->conexion->query($consulta);
         return $resultado;
 
+    }
+
+    public function mandarCorreoConfirmacion() {
+      $to_email = $this->correo_electronico;
+      $subject = "Confirma tu cuenta";
+      $body = "Para confirmar tu cuenta haz click <a href='" . BaseDatos::$backend . "/usuarios/confirmar.php?id_usuario=$this->id' target='_blank'>aquí</a>";
+      $headers = "From: alejandrocemu94@gmail.com;";
+      $headers .= "MIME-Version: 1.0\r\n";
+      $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+      if (mail($to_email, $subject, $body, $headers)) {
+          return true;
+      } else {
+          return false;
+      }
+    }
+
+    public function confirmar($id_usuario) {
+      $consulta = "UPDATE usuario SET confirmado='1' WHERE id=$id_usuario";
+      $resultado = $this->conexion->query($consulta);
+      return $resultado;
     }
 }
 ?>

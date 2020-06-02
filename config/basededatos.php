@@ -1,18 +1,26 @@
 <?php
 class BaseDatos{
 
-    // private $host = 'localhost';
-    // private $usuario = 'root';
-    // private $contrasena = '';
-    // private $nombre = 'tienda';
+     // private $host = 'localhost';
+     // private $usuario = 'root';
+     // private $contrasena = '';
+     // private $nombre = 'tienda';
+     //
+     // public static $backend = 'http://localhost:80/api';
+     // public static $frontend =  'http://localhost:4200';
 
     //Remoto
 
-    private $host = 'db5000222612.hosting-data.io';
-    private $usuario = 'dbu340239';
-    private $contrasena = '1234Abcd:';
-    private $nombre = 'dbs217331';
-    
+    private $host = 'db5000473728.hosting-data.io';
+    private $usuario = 'dbu790449';
+    private $contrasena = 'Tienda123.';
+    private $nombre = 'dbs453948';
+
+    public static $backend = 'https://acmtienda.es';
+    public static $frontend = 'https://gallant-golick-62317f.netlify.app';
+
+
+
     public $conexion;
 
     public function getConexion(){

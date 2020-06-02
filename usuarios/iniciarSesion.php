@@ -21,21 +21,28 @@ if(isset($peticion->login)){
     $correo_electronico = $peticion->login->correo_electronico;
     $contrasena = $peticion->login->contrasena;
     if($usuario->buscarPorCorreo($correo_electronico)){
-        
-        if($usuario->contrasena == $contrasena){
-            
-            //Codigo de respuesta
-            http_response_code(200);
+        if($usuario->confirmado) {
+          if($usuario->contrasena == $contrasena){
 
-            $usuario_arr = array();
-            $usuario_arr["usuario"] = $usuario;
-            echo json_encode($bd->utf8ize($usuario_arr));
-        }else{
-            http_response_code(403);
+              //Codigo de respuesta
+              http_response_code(200);
 
-            //Mensaje error
-            echo json_encode(array("mensaje" => "La contraseña no es correcta"));
+              $usuario_arr = array();
+              $usuario_arr["usuario"] = $usuario;
+              echo json_encode($bd->utf8ize($usuario_arr));
+          }else{
+              http_response_code(403);
+
+              //Mensaje error
+              echo json_encode(array("mensaje" => "La contraseña no es correcta"));
+          }
         }
+        else {
+          http_response_code(401);
+          //Mensaje error
+          echo json_encode(array("mensaje" => "Tu cuenta no está confirmada"));
+        }
+
     }else{
         http_response_code(404);
 
