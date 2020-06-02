@@ -1,4 +1,6 @@
 <?php
+require_once('../lib/PHPMailer.php');
+require_once('../lib/SMTP.php');
 class Usuario{
     //Conexion con la bd y nombre de la tabla
 
@@ -118,12 +120,14 @@ class Usuario{
     }
 
     public function mandarCorreoConfirmacion() {
+
       $to_email = $this->correo_electronico;
       $subject = "Confirma tu cuenta";
       $body = "Para confirmar tu cuenta haz click <a href='" . BaseDatos::$backend . "/usuarios/confirmar.php?id_usuario=$this->id' target='_blank'>aquí</a>";
-      $headers = "From: no-reply@acmtienda.es;";
+      $headers = "From: tienda@acmtienda.es;";
       $headers .= "MIME-Version: 1.0\r\n";
       $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+      $headers .= "Date: " . date('r') . "\r\n";
       if (mail($to_email, $subject, $body, $headers)) {
           return true;
       } else {
