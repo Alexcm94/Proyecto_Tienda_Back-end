@@ -1,6 +1,11 @@
 <?php
-require_once('../lib/PHPMailer.php');
-require_once('../lib/SMTP.php');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../lib/Exception.php';
+require '../lib/PHPMailer.php';
+require '../lib/SMTP.php';
+
 class Usuario{
     //Conexion con la bd y nombre de la tabla
 
@@ -120,18 +125,34 @@ class Usuario{
     }
 
     public function mandarCorreoConfirmacion() {
-
+      $mailer = new PHPMailer(false);
       $to_email = $this->correo_electronico;
-      $subject = "Confirma tu cuenta";
       $body = "Para confirmar tu cuenta haz click <a href='" . BaseDatos::$backend . "/usuarios/confirmar.php?id_usuario=$this->id' target='_blank'>aquí</a>";
-      $headers = "From: tienda@acmtienda.es;";
-      $headers .= "MIME-Version: 1.0\r\n";
-      $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-      $headers .= "Date: " . date('r') . "\r\n";
-      if (mail($to_email, $subject, $body, $headers)) {
-          return true;
-      } else {
-          return false;
+
+      try {
+        $mailer->SMTPDebug = 0;
+        $mailer->isSMTP();
+
+        $mailer->Host = 'smtp.ionos.es';
+        $mailer->SMTPAuth = true;
+        $mailer->Username = 'tienda@acmtienda.es';
+        $mailer->Password = 'CorreoTienda123.';
+        $mailer->SMTPSecure = 'tls';
+        $mailer->Port = 587;
+
+        $mailer->setFrom('tienda@acmtienda.es', 'Tienda ACM');
+        $mailer->addAddress($to_email);
+        $mailer->isHTML(true);
+        $mailer->Subject = "Confirma tu cuenta";
+        $mailer->Body = $body;
+
+        $mailer->send();
+
+        $mailer->ClearAllRecipients();
+
+        return true;
+      } catch(Exception $e) {
+        return false;
       }
     }
 
